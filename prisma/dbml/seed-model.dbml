@@ -9,6 +9,21 @@ Project "SEED 2.0" {
 
 Table users {
   id String [pk]
+  name String
+  email String
+  offerType String
+  amount Int
+  isPaid Boolean [default: false]
+  address String
+  height String
+  weight String
+  contactNumber String
+  transactionCode String
+  isValid Boolean
+}
+
+Table new_users {
+  id String [pk]
   name String [not null]
   email String [unique, not null]
   phone String [not null]

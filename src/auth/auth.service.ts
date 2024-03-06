@@ -27,7 +27,7 @@ export class AuthService {
   async register(createUserDto: CreateUserDto) {
     const user = await this.userService.register(createUserDto);
     if (user) {
-      this.mailService.welcome({ email: user?.email, name: user?.name });
+      // this.mailService.welcome({ email: user?.email, name: user?.name });
       return { success: true, msg: 'User created successfully' };
     }
     throw new BadRequestException('Bad Request');

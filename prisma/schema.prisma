@@ -29,7 +29,23 @@ enum Role {
   USER
 }
 
-model User {
+model user {
+  id            String @id @default(uuid())
+  name          String?
+  email         String?
+  offerType     String?
+  amount        Int?
+  isPaid        Boolean? @default(false)
+  address       String?
+  height        String?
+  weight        String?
+  contactNumber String?
+  transactionCode String?
+  isValid      Boolean? 
+  @@map("users")
+}
+
+model newUser {
 id            String       @id @default(uuid())
 name          String
 email         String       @unique
@@ -38,7 +54,7 @@ address       String
 createdAt     DateTime     @default(now())
 updatedAt     DateTime     @updatedAt
 
-@@map("users")
+@@map("new_users")
 }
 
 model Order {

@@ -4,6 +4,24 @@ CREATE TYPE "Role" AS ENUM ('ADMIN', 'USER');
 -- CreateTable
 CREATE TABLE "users" (
     "id" TEXT NOT NULL,
+    "name" TEXT,
+    "email" TEXT,
+    "offerType" TEXT,
+    "amount" INTEGER,
+    "isPaid" BOOLEAN DEFAULT false,
+    "address" TEXT,
+    "height" TEXT,
+    "weight" TEXT,
+    "contactNumber" TEXT,
+    "transactionCode" TEXT,
+    "isValid" BOOLEAN,
+
+    CONSTRAINT "users_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "new_users" (
+    "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "phone" TEXT NOT NULL,
@@ -11,7 +29,7 @@ CREATE TABLE "users" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "users_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "new_users_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -36,4 +54,4 @@ CREATE TABLE "Order" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
+CREATE UNIQUE INDEX "new_users_email_key" ON "new_users"("email");

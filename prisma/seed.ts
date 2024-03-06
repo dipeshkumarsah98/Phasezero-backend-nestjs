@@ -21,7 +21,7 @@ const prisma = new PrismaClient();
 async function main() {
   for await (const user of users) {
     const userAttrs = _.cloneDeep(user);
-    await prisma.user.create({
+    await prisma.newUser.create({
       data: {
         ...userAttrs,
       },

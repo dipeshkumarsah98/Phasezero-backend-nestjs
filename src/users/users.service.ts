@@ -11,23 +11,23 @@ export class UsersService {
   async register(createUserDto: CreateUserDto) {
     this._logger.log(`Registering new user: ${createUserDto?.email}`);
     const walletAddress = hexStringToBuffer(createUserDto?.walletAddress);
-    return this.prisma.user.create({
-      data: {
-        ...createUserDto,
-        walletAddress,
-      },
-    });
+    // return this.prisma.user.create({
+    //   data: {
+    //     ...createUserDto,
+    //   },
+    // });
+    return 'registering user...';
   }
 
   async create(createUserDto: CreateUserDto) {
     this._logger.log(`Creating new user: ${createUserDto?.email}`);
     const walletAddress = hexStringToBuffer(createUserDto?.walletAddress);
-    return this.prisma.user.create({
-      data: {
-        ...createUserDto,
-        walletAddress,
-      },
-    });
+    // return this.prisma.user.create({
+    //   data: {
+    //     ...createUserDto,
+    //   },
+    // });
+    return 'creating user...';
   }
 
   findAll() {
@@ -48,8 +48,9 @@ export class UsersService {
   }
 
   async findOneByEmail(email: string): Promise<any> {
-    return await this.prisma.user.findUnique({
-      where: { email },
-    });
+    // return await this.prisma.user.findUnique({
+    //   where: { email },
+    // });
+    return `This action returns a user with email: ${email}`;
   }
 }
