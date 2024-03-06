@@ -1,4 +1,4 @@
-import { BadRequestException, Controller, Get, Param } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { Public } from 'src/common/decorators/public.decorator';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';

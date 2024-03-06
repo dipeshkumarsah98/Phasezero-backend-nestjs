@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { formatProduct, formatProducts } from 'src/utils/product-format';
 
@@ -40,5 +40,66 @@ export class ProductsService {
       },
     });
     return formatProduct(product);
+  }
+
+  async updateStock({
+    color,
+    productId,
+    quantity,
+    size,
+  }: {
+    color: string;
+    size: string;
+    quantity: number;
+    productId: string;
+  }) {
+    this._logger.log(`Updating stock for product with id: ${productId}`);
+    const colorObj = await this.prisma.color.findFirst({
+      where: {
+        color,
+      },
+    });
+
+    if (!colorObj) {
+      throw new BadRequestException('Color not found');
+    }
+    const sizeObj = await this.prisma.size.findFirst({ where: { size } });
+
+    if (!sizeObj) {
+      throw new BadRequestException('Size not found');
+    }
+    const stock = await this.prisma.stock.findFirst({
+      where: {
+        productId,
+        colorId: colorObj.id,
+        sizeId: sizeObj.id,
+      },
+      include: {
+        product: {
+          select: {
+            productName: true,
+          },
+        },
+      },
+    });
+    if (!stock) {
+      throw new BadRequestException('Stock not found');
+    }
+
+    const updatedStock = await this.prisma.stock.update({
+      where: {
+        id: stock.id,
+      },
+      data: {
+        quantity: {
+          decrement: quantity,
+        },
+      },
+    });
+
+    return {
+      oldStock: stock,
+      newStock: updatedStock,
+    };
   }
 }
