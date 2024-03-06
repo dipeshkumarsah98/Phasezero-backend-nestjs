@@ -41,7 +41,7 @@ model user {
   weight        String?
   contactNumber String?
   transactionCode String?
-  isValid      Boolean? 
+  isValid      Boolean?   @default(true)
   @@map("users")
 }
 

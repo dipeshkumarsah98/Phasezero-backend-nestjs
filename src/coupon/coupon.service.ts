@@ -13,7 +13,7 @@ export class CouponService {
       where: {
         isPaid: true,
         transactionCode: couponCode,
-        isValid: false,
+        isValid: true,
       },
     });
 
@@ -21,9 +21,9 @@ export class CouponService {
       this._logger.log(`Coupon is valid: ${couponCode}`);
       await this.prisma.user.update({
         where: { id: isValid.id },
-        data: { isValid: true },
+        data: { isValid: false },
       });
-      return { success: true, msg: 'Coupon is valid' };
+      return { success: true, discount: 20, msg: 'Coupon is valid' };
     }
 
     if (!isValid) {

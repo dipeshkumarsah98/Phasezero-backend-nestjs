@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import * as _ from 'lodash';
 
-export const users = [
+export const newUser = [
   {
     name: 'Dipesh kumar sah',
     email: 'dipesh@gmail.com',
@@ -16,12 +16,34 @@ export const users = [
   },
 ];
 
+const discounts = [
+  {
+    id: '1',
+    name: 'xyz',
+    email: 'try@gmail.com',
+    offerType: 'Basic',
+    amount: 100,
+    isPaid: true,
+    transactionCode: '123456',
+    isValid: true,
+  },
+  {
+    id: '2',
+    name: 'abc',
+    email: 'try2@gmail.com',
+    offerType: 'Premium',
+    amount: 200,
+    isPaid: true,
+    transactionCode: '123456',
+    isValid: true,
+  },
+];
 const prisma = new PrismaClient();
 
 async function main() {
-  for await (const user of users) {
-    const userAttrs = _.cloneDeep(user);
-    await prisma.newUser.create({
+  for await (const discount of discounts) {
+    const userAttrs = _.cloneDeep(discount);
+    await prisma.user.create({
       data: {
         ...userAttrs,
       },

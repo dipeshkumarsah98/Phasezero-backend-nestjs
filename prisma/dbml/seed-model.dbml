@@ -19,7 +19,7 @@ Table users {
   weight String
   contactNumber String
   transactionCode String
-  isValid Boolean
+  isValid Boolean [default: true]
 }
 
 Table new_users {
