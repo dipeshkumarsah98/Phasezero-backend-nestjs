@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsArray, IsEmail, IsOptional, IsEthereumAddress } from 'class-validator';
+import { IsString, IsEmail, IsOptional } from 'class-validator';
 
 export class CreateUserDto {
   @IsEmail()
@@ -18,21 +18,21 @@ export class CreateUserDto {
   })
   name: string;
 
-  @IsEthereumAddress()
+  @IsString()
   @IsOptional()
   @ApiProperty({
-    description: 'Ethereum wallet address of the user',
-    example: '0xC67c60cD6d82Fcb2fC6a9a58eA62F80443E32683',
+    description: 'Phone number of the user',
+    example: '9123456789',
   })
-  walletAddress: string;
+  phone: string;
 
-  @IsArray()
+  @IsString()
   @IsOptional()
   @ApiProperty({
-    description: 'Array of roles associated with the user',
-    example: '["USER"]',
+    description: 'Address of the user',
+    example: '123, Main Street, New York',
   })
-  roles: [];
+  address: string;
 }
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {}

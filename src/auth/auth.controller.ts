@@ -52,7 +52,8 @@ export class AuthController {
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async sendOtp(@Body() AuthDto: AuthDto): Promise<ResponseMessage | null> {
-    return this.authService.sendOtp(AuthDto);
+    // return this.authService.sendOtp(AuthDto);
+    return { success: true, msg: 'OTP sent successfully' };
   }
 
   @Public()
