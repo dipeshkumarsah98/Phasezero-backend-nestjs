@@ -143,7 +143,7 @@ const stockDetails = {
         stock: 9,
       },
       {
-        color: 'while',
+        color: 'white',
         stock: 13,
       },
     ],
@@ -153,7 +153,7 @@ const stockDetails = {
         stock: 9,
       },
       {
-        color: 'while',
+        color: 'white',
         stock: 13,
       },
     ],
@@ -163,7 +163,7 @@ const stockDetails = {
         stock: 9,
       },
       {
-        color: 'while',
+        color: 'white',
         stock: 13,
       },
     ],
@@ -229,14 +229,14 @@ const loadStocks = async () => {
 const prisma = new PrismaClient();
 
 async function main() {
-  for await (const discount of discounts) {
-    const userAttrs = _.cloneDeep(discount);
-    await prisma.user.create({
-      data: {
-        ...userAttrs,
-      },
-    });
-  }
+  // for await (const discount of discounts) {
+  //   const userAttrs = _.cloneDeep(discount);
+  //   await prisma.user.create({
+  //     data: {
+  //       ...userAttrs,
+  //     },
+  //   });
+  // }
   await loadProducts();
   await loadSizes();
   await loadColors();
