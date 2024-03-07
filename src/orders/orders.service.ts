@@ -87,12 +87,6 @@ export class OrdersService {
           email: createdOrder.user.email,
           name: createdOrder.user.name,
         });
-
-        this.mailerService.sendEven({
-          email: createdOrder.user.email,
-          name: createdOrder.user.name,
-          otp: '1234',
-        });
       }
       return createdOrder;
     } catch (error) {
