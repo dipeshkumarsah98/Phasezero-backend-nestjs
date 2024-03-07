@@ -1,5 +1,4 @@
 import { Prisma, PrismaClient } from '@prisma/client';
-import * as _ from 'lodash';
 
 export const newUser = [
   {
@@ -229,14 +228,6 @@ const loadStocks = async () => {
 const prisma = new PrismaClient();
 
 async function main() {
-  // for await (const discount of discounts) {
-  //   const userAttrs = _.cloneDeep(discount);
-  //   await prisma.user.create({
-  //     data: {
-  //       ...userAttrs,
-  //     },
-  //   });
-  // }
   await loadProducts();
   await loadSizes();
   await loadColors();
