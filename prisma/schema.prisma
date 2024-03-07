@@ -43,9 +43,10 @@ model user {
 model newUser {
 id            String       @id @default(uuid())
 name          String
-email         String       @unique
+email         String       
 phone         String       
 address       String
+order         Order[]
 createdAt     DateTime     @default(now())
 updatedAt     DateTime     @updatedAt
 
@@ -56,6 +57,7 @@ model Product {
 id            String       @id @default(uuid())
 productName   String
 stock         Stock[]
+order         Order[]
 createdAt     DateTime     @default(now())
 updatedAt     DateTime     @updatedAt
 
@@ -96,18 +98,21 @@ model Size {
 
 model Order {
 id            String       @id @default(uuid())
-productName   String
-productId     String
 quantity      Int
-price         Float
-total         Float
+price         Int
+total         Int
 color         String
 size          String
 isPaid        Boolean      @default(false)
 isDelivered   Boolean      @default(false)
 deliveryType  String
-discount      Float
+transactionCode String?
+discount      Int
 discountCupon String
+userId        String
+productId    String
+product       Product     @relation(fields: [productId], references: [id])
+user          newUser       @relation(fields: [userId], references: [id])
 createdAt     DateTime     @default(now())
 updatedAt     DateTime     @updatedAt
 } 

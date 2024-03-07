@@ -66,7 +66,7 @@ const loadProducts = async () => {
 };
 
 const loadSizes = async () => {
-  const sizes = ['MD', 'LG', 'XL'];
+  const sizes = ['M', 'L', 'XL'];
   const sizesObj: Prisma.SizeCreateInput[] = sizes.map((size): Prisma.SizeCreateInput => {
     return {
       size,
@@ -92,7 +92,7 @@ const loadColors = async () => {
 const stockDetails = {
   // hoodie
   '61c82d33-9ce0-495b-8a18-c4ce5d340272': {
-    MD: [
+    M: [
       {
         color: 'black',
         stock: 24,
@@ -106,7 +106,7 @@ const stockDetails = {
         stock: 15,
       },
     ],
-    LG: [
+    L: [
       {
         color: 'black',
         stock: 20,
@@ -137,7 +137,7 @@ const stockDetails = {
   },
   // polo
   '0ee0a46a-3761-48dd-88c0-7a0e9bee7613': {
-    MD: [
+    M: [
       {
         color: 'black',
         stock: 9,
@@ -147,7 +147,7 @@ const stockDetails = {
         stock: 13,
       },
     ],
-    LG: [
+    L: [
       {
         color: 'black',
         stock: 9,
@@ -170,7 +170,7 @@ const stockDetails = {
   },
   // wind breaker
   '051d5d0c-e22f-47c7-b0e3-7df658789226': {
-    MD: [
+    M: [
       {
         color: 'green',
         stock: 17,
@@ -180,7 +180,7 @@ const stockDetails = {
         stock: 15,
       },
     ],
-    LG: [
+    L: [
       {
         color: 'green',
         stock: 25,
@@ -209,7 +209,7 @@ const loadStocks = async () => {
   products.forEach(product => {
     const productStocks = stockDetails[product.id];
 
-    Array.of('MD', 'LG', 'XL').forEach(async size => {
+    Array.of('M', 'L', 'XL').forEach(async size => {
       const stocks = productStocks[size];
       for (const s of stocks) {
         stock = {
