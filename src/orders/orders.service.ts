@@ -4,6 +4,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { PaymentDto } from 'src/payments/dto/payment.dto';
 import { MailService } from 'src/mailer/mailer.service';
 import { PAYMENT_METHOD } from 'src/payments/payment.gateways';
+import { ProductsService } from 'src/products/products.service';
 
 @Injectable()
 export class OrdersService {
@@ -11,6 +12,7 @@ export class OrdersService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly mailerService: MailService,
+    private readonly productService: ProductsService,
   ) {}
 
   public async confirmOrder(data: { transaction_uuid: string; transaction_code: string }) {
@@ -33,6 +35,13 @@ export class OrdersService {
             },
           },
         },
+      });
+
+      await this.productService.updateStock({
+        color: order.color,
+        productId: order.productId,
+        quantity: order.quantity,
+        size: order.size,
       });
 
       this.mailerService.confirmOrder({ email: order.user.email, name: order.user.name });
@@ -83,6 +92,13 @@ export class OrdersService {
         });
       });
       if (order.paymentMethod === PAYMENT_METHOD.COD) {
+        await this.productService.updateStock({
+          color: order.color,
+          productId: order.productId,
+          quantity: order.quantity,
+          size: order.size,
+        });
+
         this.mailerService.confirmOrder({
           email: createdOrder.user.email,
           name: createdOrder.user.name,

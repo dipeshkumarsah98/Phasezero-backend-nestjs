@@ -20,9 +20,9 @@ export class ESEWAGateway implements PaymentGateway {
     const clientUrl = process.env.CLIENT_URL || 'http://localhost:3000';
 
     const formData = {
-      amount: amount,
+      amount: `${amount}`,
       failure_url: clientUrl,
-      product_delivery_charge: deliveryCharge || 0,
+      product_delivery_charge: `${deliveryCharge}` || '0',
       product_service_charge: 0,
       product_code: productCode,
       signature: signature,
@@ -30,7 +30,7 @@ export class ESEWAGateway implements PaymentGateway {
       // success_url: `${baseUrl}/api/v1/esewa/success`,
       success_url: `${clientUrl}/success`,
       tax_amount: '0',
-      total_amount: totalAmount,
+      total_amount: `${totalAmount}`,
       transaction_uuid: transactionId,
     };
 

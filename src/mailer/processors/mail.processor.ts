@@ -59,7 +59,7 @@ export class MailProcessor {
   }
 
   @Process(ORDERCONFIRMATION)
-  public async sendOrderConfirmation(job: Job<{ email: string }>) {
+  public async sendOrderConfirmation(job: Job<{ email: string; name: string }>) {
     this._logger.log(`Sending order confirmation email to '${job.data.email}'`);
 
     try {
@@ -68,7 +68,7 @@ export class MailProcessor {
         from: this._configService.get('EMAIL_ADDRESS'),
         subject: 'Order Confirmation',
         template: './orderConfirmation',
-        context: { name: job.data.email },
+        context: { name: job.data.name },
       });
     } catch {
       this._logger.error(`Failed to send confirmation email to '${job.data.email}'`);
