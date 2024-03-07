@@ -9,20 +9,21 @@ export class CouponService {
 
   async checkCoupon(couponCode: string) {
     this._logger.log(`Checking coupon: ${couponCode}`);
-    const isValid = await this.prisma.user.findFirst({
-      where: {
-        isPaid: true,
-        transactionCode: couponCode,
-        isValid: true,
-      },
-    });
+    // const isValid = await this.prisma.user.findFirst({
+    //   where: {
+    //     isPaid: true,
+    //     transactionCode: couponCode,
+    //     isValid: true,
+    //   },
+    // });
+    const isValid = couponCode.toLocaleUpperCase() === 'MYSTERY20' ? true : false;
 
     if (isValid) {
       this._logger.log(`Coupon is valid: ${couponCode}`);
-      await this.prisma.user.update({
-        where: { id: isValid.id },
-        data: { isValid: false },
-      });
+      // await this.prisma.user.update({
+      //   where: { id: isValid.id },
+      //   data: { isValid: false },
+      // });
       return { success: true, discount: 20, msg: 'Coupon is valid' };
     }
 
