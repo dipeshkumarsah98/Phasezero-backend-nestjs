@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Query, Req } from '@nestjs/common';
+import { Body, Controller, Post, Query, Get } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { PaymentService } from 'src/payments/payments.service';
 import { ESEWAGateway, PAYMENT_METHOD, CODGateway } from 'src/payments/payment.gateways';
@@ -31,7 +31,7 @@ export class OrdersController {
   }
 
   @Public()
-  @Post('/confirm')
+  @Get('/confirm')
   async confirmOrder(@Query('data') data: any) {
     if (!data) {
       throw new Error('No query data found');
