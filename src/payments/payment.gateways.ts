@@ -15,15 +15,15 @@ export class ESEWAGateway implements PaymentGateway {
 
     const productCode = process.env.ESEWA_PRODUCT_CODE;
     const signature = createSignature(
-      `total_amount=${amount},transaction_uuid=${transactionId},product_code=${productCode}`,
+      `total_amount=${totalAmount},transaction_uuid=${transactionId},product_code=${productCode}`,
     );
     const clientUrl = process.env.CLIENT_URL || 'http://localhost:3000';
 
     const formData = {
       amount: amount,
       failure_url: clientUrl,
-      product_delivery_charge: deliveryCharge,
-      product_service_charge: '0',
+      product_delivery_charge: deliveryCharge || 0,
+      product_service_charge: 0,
       product_code: productCode,
       signature: signature,
       signed_field_names: 'total_amount,transaction_uuid,product_code',

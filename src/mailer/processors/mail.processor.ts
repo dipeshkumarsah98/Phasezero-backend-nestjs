@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Job } from 'bull';
 import { OnQueueActive, OnQueueCompleted, OnQueueFailed, Process, Processor } from '@nestjs/bull';
-import { SENT_OTP, MAIL_QUEUE, WELCOME_MSG } from '../constants';
+import { SENT_OTP, MAIL_QUEUE, WELCOME_MSG, GIFT, ORDERCONFIRMATION } from '../constants';
 import { MailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
 
@@ -52,6 +52,40 @@ export class MailProcessor {
         subject: 'Sign In OTP',
         template: './otp',
         context: { name: job.data.email, otp: job.data.otp },
+      });
+    } catch {
+      this._logger.error(`Failed to send confirmation email to '${job.data.email}'`);
+    }
+  }
+
+  @Process(ORDERCONFIRMATION)
+  public async sendOrderConfirmation(job: Job<{ email: string }>) {
+    this._logger.log(`Sending order confirmation email to '${job.data.email}'`);
+
+    try {
+      return this._mailerService.sendMail({
+        to: job.data.email,
+        from: this._configService.get('EMAIL_ADDRESS'),
+        subject: 'Order Confirmation',
+        template: './orderConfirmation',
+        context: { name: job.data.email },
+      });
+    } catch {
+      this._logger.error(`Failed to send confirmation email to '${job.data.email}'`);
+    }
+  }
+
+  @Process(GIFT)
+  public async sendGift(job: Job<{ email: string; name: string; otp: string }>) {
+    this._logger.log(`Sending gift email to '${job.data.email}'`);
+
+    try {
+      return this._mailerService.sendMail({
+        to: job.data.email,
+        from: this._configService.get('EMAIL_ADDRESS'),
+        subject: 'Gift from PHASEZERO',
+        template: './gift',
+        context: { email: job.data.email, name: job.data.name, otp: job.data.otp },
       });
     } catch {
       this._logger.error(`Failed to send confirmation email to '${job.data.email}'`);
