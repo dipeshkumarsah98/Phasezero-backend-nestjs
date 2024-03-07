@@ -24,12 +24,23 @@ generator docs {
   output   = "./docs"
 }
 
-enum Role {
-  ADMIN
-  USER
+model user {
+  id            String @id @default(uuid())
+  name          String?
+  email         String?
+  offerType     String?
+  amount        Int?
+  isPaid        Boolean? @default(false)
+  address       String?
+  height        String?
+  weight        String?
+  contactNumber String?
+  transactionCode String?
+  isValid      Boolean?   @default(true)
+  @@map("users")
 }
 
-model User {
+model newUser {
 id            String       @id @default(uuid())
 name          String
 email         String       @unique
@@ -38,8 +49,50 @@ address       String
 createdAt     DateTime     @default(now())
 updatedAt     DateTime     @updatedAt
 
-@@map("users")
+@@map("new_users")
 }
+
+model Product {
+id            String       @id @default(uuid())
+productName   String
+stock         Stock[]
+createdAt     DateTime     @default(now())
+updatedAt     DateTime     @updatedAt
+
+@@map("products")
+}
+
+model Stock {
+id            String       @id @default(uuid())
+productId     String
+product       Product   @relation(fields: [productId], references: [id])
+quantity      Int
+colorId       Int
+sizeId        Int
+color         Color     @relation(fields: [colorId], references: [id])
+size          Size      @relation(fields: [sizeId], references: [id])
+createdAt     DateTime     @default(now())
+updatedAt     DateTime     @updatedAt
+
+@@map("stocks")
+}
+
+model Color {
+  id              Int       @id @default(autoincrement())
+  color            String    @unique
+  stock           Stock[]
+
+  @@map("colors")
+}
+
+model Size {
+  id              Int       @id @default(autoincrement())
+  size            String    @unique
+  stock           Stock[]
+
+  @@map("sizes")
+}
+
 
 model Order {
 id            String       @id @default(uuid())

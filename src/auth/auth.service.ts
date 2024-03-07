@@ -18,16 +18,16 @@ export class AuthService {
 
   async validateUser(email: string, otp: string): Promise<CreateUserDto> {
     const user = await this.userService.findOneByEmail(email);
-    if (user && user?.isActive && totp.verify({ token: otp, secret: process.env.OTP_SECRET })) {
-      return user;
-    }
+    // if (user && user?.isActive && totp.verify({ token: otp, secret: process.env.OTP_SECRET })) {
+    //   return user;
+    // }
     throw new NotFoundException('User not found');
   }
 
   async register(createUserDto: CreateUserDto) {
     const user = await this.userService.register(createUserDto);
     if (user) {
-      this.mailService.welcome({ email: user?.email, name: user?.name });
+      // this.mailService.welcome({ email: user?.email, name: user?.name });
       return { success: true, msg: 'User created successfully' };
     }
     throw new BadRequestException('Bad Request');
@@ -37,14 +37,14 @@ export class AuthService {
     this._logger.log(`Sending Login OTP to ${AuthDto?.email}`);
     const { email } = AuthDto;
     const user = await this.userService.findOneByEmail(email);
-    if (user && user?.isActive) {
-      this._logger.log(`Generating Login OTP to ${AuthDto?.email}`);
-      const token = totp.generate(process.env.OTP_SECRET);
-      if (token) {
-        this.mailService.sendOTP({ email: user?.email, otp: token });
-        return { success: true, msg: 'OTP sent successfully' };
-      }
-    }
+    // if (user && user?.isActive) {
+    //   this._logger.log(`Generating Login OTP to ${AuthDto?.email}`);
+    //   const token = totp.generate(process.env.OTP_SECRET);
+    //   if (token) {
+    //     this.mailService.sendOTP({ email: user?.email, otp: token });
+    //     return { success: true, msg: 'OTP sent successfully' };
+    //   }
+    // }
     throw new NotFoundException('User not found');
   }
 
