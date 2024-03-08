@@ -7,6 +7,21 @@ export class UsersService {
   private readonly _logger = new Logger('User Services');
   constructor(private prisma: PrismaService) {}
 
+  async searchUser(name: string) {
+    try {
+      const users = await this.prisma.newUser.findMany({
+        where: {
+          name: {
+            contains: name,
+          },
+        },
+      });
+      return users;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   async register(createUserDto: CreateUserDto) {
     this._logger.log(`Registering new user: ${createUserDto?.email}`);
     const newUser = await this.prisma.newUser.create({

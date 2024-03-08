@@ -5,7 +5,7 @@ import { ESEWAGateway, PAYMENT_METHOD, CODGateway } from 'src/payments/payment.g
 import { OrderDto } from './dto/order.dto';
 import { PaymentDto } from 'src/payments/dto/payment.dto';
 import { Public } from 'src/common/decorators/public.decorator';
-import createSignature from 'src/utils/signature';
+import { FilterOrderDto } from './dto/filter-order.dto';
 
 @Controller('/orders')
 export class OrdersController {
@@ -28,6 +28,12 @@ export class OrdersController {
     });
 
     return formData;
+  }
+
+  @Public()
+  @Get()
+  async getOrders(@Query() filterOrderDto: FilterOrderDto) {
+    return await this.ordersService.getOrders(filterOrderDto);
   }
 
   @Public()

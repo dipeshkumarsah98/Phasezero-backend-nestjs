@@ -1,10 +1,11 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, ParseBoolPipe } from '@nestjs/common';
 import { OrderDto } from './dto/order.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { PaymentDto } from 'src/payments/dto/payment.dto';
 import { MailService } from 'src/mailer/mailer.service';
 import { PAYMENT_METHOD } from 'src/payments/payment.gateways';
 import { ProductsService } from 'src/products/products.service';
+import { FilterOrderDto } from './dto/filter-order.dto';
 
 @Injectable()
 export class OrdersService {
@@ -14,6 +15,40 @@ export class OrdersService {
     private readonly mailerService: MailService,
     private readonly productService: ProductsService,
   ) {}
+
+  async getOrders(filters: FilterOrderDto) {
+    try {
+      const orders = await this.prisma.order.findMany({
+        where: {
+          isPaid: filters.isPaid === 'true' ? true : false,
+          isDelivered: filters.isDelivered === 'true' ? true : false,
+          deliveryType: filters.type,
+          productId: filters.productId,
+          color: filters.color,
+          size: filters.size,
+        },
+        include: {
+          user: true,
+        },
+      });
+
+      const newOrders = new Promise(async (resolve, reject) => {
+        try {
+          for (let order of orders) {
+            const product = await this.prisma.product.findFirst({ where: { id: order.productId } });
+            order['product'] = product;
+          }
+          resolve(orders);
+        } catch (error) {
+          reject(error);
+        }
+      });
+      return await newOrders;
+    } catch (error) {
+      console.log(error);
+      throw new Error('Error fetching orders');
+    }
+  }
 
   public async confirmOrder(data: { transaction_uuid: string; transaction_code: string }) {
     const { transaction_code, transaction_uuid } = data;
