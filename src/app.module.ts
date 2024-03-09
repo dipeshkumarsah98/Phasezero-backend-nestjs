@@ -9,10 +9,13 @@ import { CouponModule } from './coupon/coupon.module';
 import { ProductsModule } from './products/products.module';
 import { PaymentsModule } from './payments/payments.module';
 import { OrdersModule } from './orders/orders.module';
+import { CronServicesModule } from './cron-services/cron-services.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
+    ScheduleModule.forRoot(),
     BullModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
@@ -31,6 +34,7 @@ import { OrdersModule } from './orders/orders.module';
     ProductsModule,
     PaymentsModule,
     OrdersModule,
+    CronServicesModule,
   ],
 })
 export class AppModule {}

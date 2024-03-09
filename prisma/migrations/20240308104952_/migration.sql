@@ -71,26 +71,24 @@ CREATE TABLE "sizes" (
 -- CreateTable
 CREATE TABLE "Order" (
     "id" TEXT NOT NULL,
-    "productName" TEXT NOT NULL,
-    "productId" TEXT NOT NULL,
     "quantity" INTEGER NOT NULL,
-    "price" DOUBLE PRECISION NOT NULL,
-    "total" DOUBLE PRECISION NOT NULL,
+    "price" INTEGER NOT NULL,
+    "total" INTEGER NOT NULL,
     "color" TEXT NOT NULL,
     "size" TEXT NOT NULL,
     "isPaid" BOOLEAN NOT NULL DEFAULT false,
     "isDelivered" BOOLEAN NOT NULL DEFAULT false,
     "deliveryType" TEXT NOT NULL,
-    "discount" DOUBLE PRECISION NOT NULL,
+    "transactionCode" TEXT,
+    "discount" INTEGER NOT NULL,
     "discountCupon" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "productId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Order_pkey" PRIMARY KEY ("id")
 );
-
--- CreateIndex
-CREATE UNIQUE INDEX "new_users_email_key" ON "new_users"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "colors_color_key" ON "colors"("color");
@@ -106,3 +104,9 @@ ALTER TABLE "stocks" ADD CONSTRAINT "stocks_colorId_fkey" FOREIGN KEY ("colorId"
 
 -- AddForeignKey
 ALTER TABLE "stocks" ADD CONSTRAINT "stocks_sizeId_fkey" FOREIGN KEY ("sizeId") REFERENCES "sizes"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Order" ADD CONSTRAINT "Order_productId_fkey" FOREIGN KEY ("productId") REFERENCES "products"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Order" ADD CONSTRAINT "Order_userId_fkey" FOREIGN KEY ("userId") REFERENCES "new_users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
