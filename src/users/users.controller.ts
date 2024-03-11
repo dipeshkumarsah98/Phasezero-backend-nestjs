@@ -19,4 +19,10 @@ export class UsersController {
   async searchUser(@Query() name: string) {
     return this.usersService.searchUser(name);
   }
+
+  // @Public()
+  // @Get('/send-mail')
+  // async sendAllEmail() {
+  //   return this.usersService.sendEmail();
+  // }
 }

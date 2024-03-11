@@ -10,7 +10,7 @@ export class MailService {
 
   constructor(@InjectQueue(MAIL_QUEUE) private readonly _mailQueue: Queue) {}
 
-  public async sendEven({
+  public async sendEvent({
     email,
     name,
     otp,

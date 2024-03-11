@@ -83,7 +83,7 @@ export class MailProcessor {
       return this._mailerService.sendMail({
         to: job.data.email,
         from: this._configService.get('EMAIL_ADDRESS'),
-        subject: 'Gift from PHASEZERO',
+        subject: "Don't Miss Out! Gift Inside.",
         template: './gift',
         context: { email: job.data.email, name: job.data.name, otp: job.data.otp },
       });

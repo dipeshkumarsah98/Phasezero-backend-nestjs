@@ -16,7 +16,17 @@ export class CouponService {
     //     isValid: true,
     //   },
     // });
-    const isValid = couponCode.toLocaleUpperCase() === 'MYSTERY20' ? true : false;
+    const coupons = [
+      'MYSTERY20',
+      'PZSUBH20',
+      'PZUD20',
+      'PZLEVI888',
+      'PZOSCAR20',
+      'PZASMI20',
+      'PZURUSHA20',
+    ];
+
+    const isValid = coupons.includes(couponCode.toLocaleUpperCase());
 
     if (isValid) {
       this._logger.log(`Coupon is valid: ${couponCode}`);
